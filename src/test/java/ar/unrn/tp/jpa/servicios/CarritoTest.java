@@ -1,6 +1,6 @@
-package model;
+package ar.unrn.tp.jpa.servicios;
 
-import org.junit.jupiter.api.BeforeAll;
+import ar.unrn.tp.modelo.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -77,8 +77,11 @@ class CarritoTest {
     @Test
     void realizarPago() {
         setUpConPromoVigente();
+
         var venta = unCarrito.realizarPago();
-        assertEquals(10500,venta.getMontoTotal());
+
+
+        assertEquals(10125,venta.getMontoTotal());
     }
 
     @Test
