@@ -7,13 +7,13 @@ import java.util.Objects;
 
 public class PromocionDeProducto extends Promocion {
 
-    private List<String> marcaDeProductos=new ArrayList<>();
-    private static double DESCUENTO_DE_PRODUCTO = 5.0;
+    private String marca;
+   
 
 
-    public PromocionDeProducto(LocalDateTime fechaInicio, LocalDateTime fechaFin, String unaMarca) {
-        super(fechaInicio, fechaFin, new Descuento(DESCUENTO_DE_PRODUCTO));
-        this.marcaDeProductos.add(Objects.requireNonNull(unaMarca));
+    public PromocionDeProducto(LocalDateTime fechaInicio, LocalDateTime fechaFin,float porcentajeDeDescuento, String unaMarca) {
+        super(fechaInicio, fechaFin, porcentajeDeDescuento);
+        this.marca=Objects.requireNonNull(unaMarca);
     }
 
     public void agregarMarca(String marca){

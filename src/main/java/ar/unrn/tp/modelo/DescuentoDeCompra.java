@@ -1,9 +1,11 @@
-package model;
+package ar.unrn.tp.modelo;
+
+import model.Promocion;
+import model.Tarjeta;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
-public class PromocionDeCompra extends Promocion{
+public class PromocionDeCompra extends Promocion {
     private Tarjeta tardejaDeDescuento;
     private static double DESCUENTO_DE_COMPRA = 8.0;
 
