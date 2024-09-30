@@ -36,3 +36,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+myDbTestFile.tmp
+BD2-TP1.iml
+TestingFile.tmp

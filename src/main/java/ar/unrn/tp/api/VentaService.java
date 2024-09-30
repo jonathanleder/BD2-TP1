@@ -2,7 +2,7 @@ package ar.unrn.tp.api;
 
 import java.util.List;
 
-interface VentaService {
+public interface VentaService {
     //Crea una venta. El monto se calcula aplicando los descuentos a la fecha
     // validaciones:
 // - debe ser un cliente existente
@@ -14,5 +14,7 @@ interface VentaService {
     float calcularMonto(List<Long> productos, Long idTarjeta);
     //Devuelve todas las ventas realizadas
     List ventas();
+
+    Long realizarVentaId(long l, List<Long> longs, long l1);
 }
 

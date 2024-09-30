@@ -1,35 +1,45 @@
-package model;
+package ar.unrn.tp.modelo;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import ar.unrn.tp.excepciones.FechaInvalidaExcepcion;
+import ar.unrn.tp.modelo.Descuento;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.time.LocalDate;
+
 import java.util.Objects;
 
-public class PromocionDeProducto extends Promocion {
+
+@Entity
+@NoArgsConstructor
+public class DescuentoDeProducto extends Descuento {
+
 
     private String marca;
-   
 
 
-    public PromocionDeProducto(LocalDateTime fechaInicio, LocalDateTime fechaFin,float porcentajeDeDescuento, String unaMarca) {
+
+
+    public DescuentoDeProducto(LocalDate fechaInicio, LocalDate fechaFin, float porcentajeDeDescuento, String unaMarca) throws FechaInvalidaExcepcion {
         super(fechaInicio, fechaFin, porcentajeDeDescuento);
         this.marca=Objects.requireNonNull(unaMarca);
     }
 
-    public void agregarMarca(String marca){
-        if(this.marcaDeProductos.equals(marca)){
-            throw new IllegalArgumentException("Esa marca ya tiene promo");
-        }
-        this.marcaDeProductos.add(marca);
-    }
+
     @Override
-    protected boolean tienePromo(String dato) {
-        return this.marcaDeProductos.stream().anyMatch(marca -> marca.equals(dato));
+    public boolean tienePromo(String dato) {
+        return this.marca.equals(dato);
     }
+
     @Override
-    protected double aplicarDescuento(double precio) {
-        return descuento.obtenerDescuento(precio);
+    protected String marca() {
+        return this.marca;
     }
+
+
 
 
 }

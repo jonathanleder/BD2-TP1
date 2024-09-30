@@ -1,13 +1,12 @@
 package ar.unrn.tp.api;
 
+import ar.unrn.tp.modelo.Producto;
+
 import java.util.List;
 
-interface ProductoService {
-    //validar que sea una categoría existente y que codigo no se repita
-    void crearProducto(String codigo, String descripcion, float precio, Long
-            IdCategoría);
-    //validar que sea un producto existente
-    void modificarProducto(Long idProducto);
-    //Devuelve todos los productos
-    List listarProductos();
+public interface ProductoService {
+    void crearProducto(String codigo, String descripcion, float precio, Long idCategoría, Long idMarca);
+    void modificarProducto(Long idProducto, String descripcion, float precio);
+    List<Producto> listarProductos();
 }
+

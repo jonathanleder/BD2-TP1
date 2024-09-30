@@ -1,4 +1,8 @@
 package ar.unrn.tp.excepciones;
 
-public class EmailInvalidoExcepcion {
+public class EmailInvalidoExcepcion extends Exception{
+    public EmailInvalidoExcepcion(){
+        super("El email debe ser valido");
+    }
+
 }

@@ -1,49 +1,43 @@
-package model;
+package ar.unrn.tp.modelo;
 
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class TarjetaDeCredito implements Tarjeta{
+@Entity
+@NoArgsConstructor
+public class Tarjeta {
 
-    private Integer numero;
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String numero;
     private String tipoTarjeta;
-    private String titular;
-    private double fondos;
     private LocalDateTime fechaVencimiento;
 
-    public TarjetaDeCredito(Integer numero, String titular,String tipoTarjeta, LocalDateTime fechaVencimiento) {
+    public Tarjeta(String tipoTarjeta, String numero) {
         this.numero= Objects.requireNonNull(numero);
-        this.titular=Objects.requireNonNull(titular);
         this.tipoTarjeta=Objects.requireNonNull(tipoTarjeta);
-        this.fechaVencimiento= Objects.requireNonNull(fechaVencimiento);
-        this.fondos=100000;
+        this.fechaVencimiento=LocalDateTime.now().plusYears(1);
+
     }
 
-    @Override
-    public void descontar(double monto){
-        this.fondos-=monto;
-    }
 
-    public double saldo(){
-        return this.fondos;
-    }
 
-    @Override
-    public  boolean tieneFondos(){
-        return true;
-    }
-
-    @Override
-    public int numeroDeTarjeta() {
+    public String numeroDeTarjeta(){
         return this.numero;
     }
 
-    @Override
     public boolean esValida() {
         return this.fechaVencimiento.isAfter(LocalDateTime.now());
     }
 
-    @Override
+
     public String tipoDeTarjeta() {
         return this.tipoTarjeta;
     }

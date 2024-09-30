@@ -1,42 +1,57 @@
-package model;
+package ar.unrn.tp.modelo;
 
 
+import ar.unrn.tp.modelo.Descuento;
+import ar.unrn.tp.modelo.Producto;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@NoArgsConstructor
 public class Venta {
-    private LocalDateTime fechaHora;
-    private Cliente cliente;
-    private List<Producto> items;
-    private double montoTotal;
-    private List<Promocion> promocionesAplicadas;
 
-    public Venta(Cliente unCliente,List<Producto> productos,double montoFinal,List<Promocion> promos){
+    @Id
+    @GeneratedValue
+    private Long id;
+    private LocalDateTime fechaHora;
+    @OneToOne
+    Cliente cliente;
+    @OneToOne
+    Tarjeta tarjeta;
+    @OneToMany(cascade={CascadeType.ALL})
+    private List<Producto> items;
+
+    @OneToMany(cascade={CascadeType.ALL})
+    private List<Descuento> promos;
+
+    private float montoTotal;
+
+
+
+    public Venta(Cliente unCliente,List<Producto> productos,float montoFinal,List<Descuento> promos, Tarjeta TarjetaSeleccionada){
         this.cliente= Objects.requireNonNull(unCliente);
         this.fechaHora=LocalDateTime.now();
         this.items=productos;
         this.montoTotal=montoFinal;
-        this.promocionesAplicadas=promos;
+        this.tarjeta=TarjetaSeleccionada;
+
     }
 
-    public double getMontoTotal() {
-        return montoTotal;
+    public int cantidadDeProductos(){
+        return items.size();
+    }
+    public Long id(){
+        return this.id;
     }
 
-    public LocalDateTime getFechaHora() {
-        return fechaHora;
+    public float montoTotal(){
+        return this.montoTotal;
     }
 
-    public List<Producto> getItems() {
-        return items;
-    }
 
-    public List<Promocion> getPromocionesAplicadas() {
-        return promocionesAplicadas;
-    }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
 }

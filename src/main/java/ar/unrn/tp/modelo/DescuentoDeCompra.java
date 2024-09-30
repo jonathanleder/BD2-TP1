@@ -1,27 +1,41 @@
 package ar.unrn.tp.modelo;
 
-import model.Promocion;
-import model.Tarjeta;
+import ar.unrn.tp.excepciones.FechaInvalidaExcepcion;
+import ar.unrn.tp.modelo.Descuento;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.time.LocalDate;
 
-public class PromocionDeCompra extends Promocion {
-    private Tarjeta tardejaDeDescuento;
-    private static double DESCUENTO_DE_COMPRA = 8.0;
+@Entity
+@NoArgsConstructor
+public class DescuentoDeCompra extends Descuento {
 
 
-    public PromocionDeCompra(LocalDateTime fechaInicio, LocalDateTime fechaFin,Tarjeta unaTarjeta) {
-        super(fechaInicio, fechaFin, new Descuento(DESCUENTO_DE_COMPRA));
+    private String tardejaDeDescuento;
+
+
+
+    public DescuentoDeCompra(LocalDate fechaInicio, LocalDate fechaFin, float porcentajeDeDescuento, String unaTarjeta) throws FechaInvalidaExcepcion {
+        super(fechaInicio, fechaFin, porcentajeDeDescuento);
         this.tardejaDeDescuento= unaTarjeta;
     }
 
+
     @Override
-    protected boolean tienePromo(String dato) {
-        return dato.equals(this.tardejaDeDescuento.tipoDeTarjeta());
+    public boolean tienePromo(String dato) {
+        return dato.equals(this.tardejaDeDescuento);
     }
 
     @Override
-    protected double aplicarDescuento(double precio) {
-        return descuento.obtenerDescuento(precio);
+    protected String marca() {
+        return this.tardejaDeDescuento;
     }
+
+
+
+
 }
