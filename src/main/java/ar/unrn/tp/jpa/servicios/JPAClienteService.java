@@ -5,18 +5,32 @@ import ar.unrn.tp.excepciones.ClienteInvalidoExcepcion;
 import ar.unrn.tp.excepciones.EmailInvalidoExcepcion;
 import ar.unrn.tp.modelo.Cliente;
 import ar.unrn.tp.modelo.Tarjeta;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class JPAClienteService extends JPAGenericService implements ClienteService {
 
 
-    public JPAClienteService(EntityManagerFactory emf) {
+
+   /* public JPAClienteService(EntityManagerFactory emf) {
         super(emf);
+    }*/
+
+
+    @PersistenceContext
+    private EntityManager em;
+
+    // No necesitas pasar EntityManagerFactory al constructor
+    public JPAClienteService() {
+        super(null); // No se necesita el EntityManagerFactory
     }
 
     @Override
@@ -65,6 +79,16 @@ public class JPAClienteService extends JPAGenericService implements ClienteServi
             tarjetas.addAll(c.tarjetas());
         });
         return tarjetas;
+    }
+
+    @Override
+    public List<Cliente> listarClientes() {
+        List<Cliente> clientes = new ArrayList<>();
+        inTransactionExecute((em) -> {
+            Query q = em.createQuery("select c from Cliente c");
+            clientes.addAll(q.getResultList());
+        });
+        return clientes;
     }
 
     @Override

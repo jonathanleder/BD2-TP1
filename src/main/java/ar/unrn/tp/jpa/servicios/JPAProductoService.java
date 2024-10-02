@@ -5,6 +5,7 @@ import ar.unrn.tp.excepciones.ProductoInvalidoExcepcion;
 import ar.unrn.tp.modelo.Categoria;
 import ar.unrn.tp.modelo.Marca;
 import ar.unrn.tp.modelo.Producto;
+import org.springframework.stereotype.Service;
 
 
 import javax.persistence.EntityManager;
@@ -14,6 +15,7 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class JPAProductoService extends JPAGenericService implements ProductoService {
 
 

@@ -1,5 +1,6 @@
 package ar.unrn.tp.modelo;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class Tarjeta {
 

@@ -1,5 +1,6 @@
 package ar.unrn.tp.modelo;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class Marca {
 
+    @Getter
     @Id
     @GeneratedValue
     private Long id;

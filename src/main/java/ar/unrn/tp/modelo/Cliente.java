@@ -2,13 +2,14 @@ package ar.unrn.tp.modelo;
 
 import ar.unrn.tp.excepciones.ClienteInvalidoExcepcion;
 import ar.unrn.tp.excepciones.EmailInvalidoExcepcion;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.jdo.annotations.Unique;
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class Cliente {
 
@@ -17,7 +18,7 @@ public class Cliente {
     private Long id;
 
     private String nombre,apellido,email;
-    @Unique
+
     private String DNI;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

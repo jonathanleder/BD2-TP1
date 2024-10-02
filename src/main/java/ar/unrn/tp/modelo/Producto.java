@@ -1,8 +1,8 @@
 package ar.unrn.tp.modelo;
 import ar.unrn.tp.excepciones.ProductoInvalidoExcepcion;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.jdo.annotations.Unique;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,6 +11,7 @@ import java.util.Objects;
 
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class Producto {
 
@@ -18,7 +19,7 @@ public class Producto {
     @GeneratedValue
     private long id;
 
-    @Unique
+
     private String codigo;
     @ManyToOne
     private Marca marca;
@@ -78,9 +79,7 @@ public class Producto {
         this.categoria = categoria;
     }
 
-    public String codigo(){
-        return this.codigo;
-    }
+
     public Long id(){
         return this.id;
     }
@@ -89,4 +88,6 @@ public class Producto {
     public boolean esIgualA(Producto productoResultado) {
         return this.codigo.equals(productoResultado.codigo);
     }
+
+
 }

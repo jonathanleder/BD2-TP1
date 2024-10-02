@@ -5,12 +5,14 @@ import ar.unrn.tp.api.VentaService;
 import ar.unrn.tp.excepciones.ProductoInvalidoExcepcion;
 import ar.unrn.tp.excepciones.TarjetaInvalidaExcepcion;
 import ar.unrn.tp.modelo.*;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+@Service
 public class JPAVentaService extends JPAGenericService implements VentaService {
     private ServicioPago servicioValidadorTarjetas;
 

@@ -1,5 +1,5 @@
 package ar.unrn.tp.api;
 
 public interface CategoriaService {
-    void crearCategoria(String explosivos);
+    void crearCategoria(String categoria);
 }

@@ -1,5 +1,6 @@
 package ar.unrn.tp.modelo;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Objects;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @NoArgsConstructor
+@Getter
 
 public abstract class Descuento {
     @Id
@@ -48,7 +50,7 @@ public abstract class Descuento {
 
     protected abstract String marca();
 
-    protected LocalDate fechaDeInicio(){
+    protected LocalDate getFechaDeInicio(){
         return fechaInicio;
     }
     protected LocalDate fechaDeFin(){
@@ -61,7 +63,7 @@ public abstract class Descuento {
 
     public boolean sosIgual(Descuento promocion){
         return this.marca().equals(promocion.marca()) &&
-                this.fechaInicio.equals(promocion.fechaDeInicio()) &&
+                this.fechaInicio.equals(promocion.getFechaDeInicio()) &&
                 this.fechaFin.equals((promocion.fechaDeFin())) &&
                 this.descuento == promocion.descuento();
     }

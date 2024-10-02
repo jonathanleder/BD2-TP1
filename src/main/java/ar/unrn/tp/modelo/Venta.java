@@ -3,6 +3,7 @@ package ar.unrn.tp.modelo;
 
 import ar.unrn.tp.modelo.Descuento;
 import ar.unrn.tp.modelo.Producto;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class Venta {
 
@@ -39,6 +41,10 @@ public class Venta {
         this.montoTotal=montoFinal;
         this.tarjeta=TarjetaSeleccionada;
 
+    }
+
+    public List<Producto>getProductos(){
+        return items;
     }
 
     public int cantidadDeProductos(){
