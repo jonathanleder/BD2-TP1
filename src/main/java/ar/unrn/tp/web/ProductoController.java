@@ -3,7 +3,6 @@ package ar.unrn.tp.web;
 
 import ar.unrn.tp.api.ProductoService;
 import ar.unrn.tp.modelo.Producto;
-import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,14 +19,12 @@ public class ProductoController {
     }
 
     @PostMapping("/crear")
-    @Operation(summary = "Agregar un producto")
     public ResponseEntity<?> create(@RequestBody Producto producto) {
         this.productoService.crearProducto(producto.getCodigo(),producto.getDescripcion(),producto.getPrecio(),producto.getCategoria().getId(),producto.getMarca().getId());
         return ResponseEntity.status(OK).body("El producto se añadió con éxito!");
     }
 
     @GetMapping("/listar")
-    @Operation(summary = "Listar todos los productos")
     public ResponseEntity<?> findAll() {
         return ResponseEntity.status(OK).body(this.productoService.listarProductos());
     }

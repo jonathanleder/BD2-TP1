@@ -1,0 +1,21 @@
+app:
+  db: "jpa-objectdb"
+  spring:
+    jpa:
+      show-sql: true
+      properties:
+        hibernate:
+          ddl-auto: update
+          format_sql: true
+  #ObjectDB: jpa-objectdb
+#PosgresSQL: jpa-postgres
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5010/almacen
+#    username: admin
+#    password: admin
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    database: postgresql

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,31 +17,20 @@ import java.util.List;
 @Service
 public class JPAClienteService extends JPAGenericService implements ClienteService {
 
-
-
-   /* public JPAClienteService(EntityManagerFactory emf) {
-        super(emf);
-    }*/
-
-
-    @PersistenceContext
-    private EntityManager em;
-
-    // No necesitas pasar EntityManagerFactory al constructor
-    public JPAClienteService() {
-        super(null); // No se necesita el EntityManagerFactory
+    public JPAClienteService(EntityManagerFactory emf) {
+        super(emf); // Pasar el EntityManagerFactory al constructor de la clase padre
     }
 
     @Override
     public void crearCliente(String nombre, String apellido, String dni, String email) {
+        System.out.println("Creando Cliente");
         inTransactionExecute((em) -> {
             try {
-                em.persist(new Cliente(nombre,apellido,dni,email));
+                em.persist(new Cliente(nombre, apellido, dni, email));
             } catch (ClienteInvalidoExcepcion | EmailInvalidoExcepcion e) {
                 throw new RuntimeException(e);
             }
         });
-
     }
 
     @Override
@@ -73,7 +61,7 @@ public class JPAClienteService extends JPAGenericService implements ClienteServi
 
     @Override
     public List<Tarjeta> listarTarjetas(Long idCliente) {
-        List<Tarjeta> tarjetas = new ArrayList<Tarjeta>();
+        List<Tarjeta> tarjetas = new ArrayList<>();
         inTransactionExecute((em) -> {
             Cliente c = em.find(Cliente.class, idCliente);
             tarjetas.addAll(c.tarjetas());
@@ -95,9 +83,7 @@ public class JPAClienteService extends JPAGenericService implements ClienteServi
     public void datosCliente(Long idCliente) {
         inTransactionExecute((em) -> {
             Cliente c = em.find(Cliente.class, idCliente);
-            System.out.println(
-                    "Nombre:"+c.nombre()+"id: "+c.id()
-            );
+            System.out.println("Nombre:" + c.nombre() + " id: " + c.id());
         });
     }
 }

@@ -5,6 +5,7 @@ import ar.unrn.tp.excepciones.FechaInvalidaExcepcion;
 import ar.unrn.tp.modelo.Descuento;
 import ar.unrn.tp.modelo.DescuentoDeCompra;
 import ar.unrn.tp.modelo.DescuentoDeProducto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -15,7 +16,8 @@ import java.util.List;
 
 @Service
 public class JPADescuentoService extends JPAGenericService implements DescuentoService {
-    private EntityManager em;
+
+
 
     public JPADescuentoService(EntityManagerFactory emf) {
        super(emf);

@@ -5,6 +5,7 @@ import ar.unrn.tp.api.VentaService;
 import ar.unrn.tp.excepciones.ProductoInvalidoExcepcion;
 import ar.unrn.tp.excepciones.TarjetaInvalidaExcepcion;
 import ar.unrn.tp.modelo.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManagerFactory;
@@ -17,6 +18,7 @@ public class JPAVentaService extends JPAGenericService implements VentaService {
     private ServicioPago servicioValidadorTarjetas;
 
     private DescuentoService descuentoService;
+
 
     public JPAVentaService(ServicioPago servicioValidadorTarjetas, DescuentoService descuentoService, EntityManagerFactory emf){
         super(emf);

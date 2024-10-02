@@ -3,10 +3,8 @@ import ar.unrn.tp.excepciones.ProductoInvalidoExcepcion;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.jdo.annotations.Unique;
+import javax.persistence.*;
 import java.util.Objects;
 
 
@@ -20,6 +18,7 @@ public class Producto {
     private long id;
 
 
+    @Column( name="codigo",unique = true)
     private String codigo;
     @ManyToOne
     private Marca marca;

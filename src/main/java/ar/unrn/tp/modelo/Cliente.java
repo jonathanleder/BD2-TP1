@@ -11,6 +11,7 @@ import java.util.*;
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(name = "Cliente", uniqueConstraints = @UniqueConstraint(columnNames = "dni"))
 public class Cliente {
 
     @Id
@@ -19,7 +20,8 @@ public class Cliente {
 
     private String nombre,apellido,email;
 
-    private String DNI;
+    @Column( name="dni",unique = true)
+    private String dni;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Tarjeta> tarjetas= new HashSet<>();
@@ -33,7 +35,7 @@ public class Cliente {
         if (noEsValido(dni)){
             throw new RuntimeException(INVALID_DNI);
         }
-        this.DNI= dni;
+        this.dni= dni;
         this.email= Objects.requireNonNull(email);
 
     }
@@ -69,7 +71,7 @@ public class Cliente {
     }
 
     public void actualizarDni(String DNI) {
-        this.DNI = DNI;
+        this.dni = DNI;
     }
 
     public void actualizarTarjetas(Set<Tarjeta> tarjetas) {
@@ -87,5 +89,10 @@ public class Cliente {
     }
     public Long id(){
         return this.id;
+    }
+
+    @Override
+    public String toString(){
+        return "Nombre: "+nombre+", Apellido: "+apellido+", DNI: "+dni;
     }
 }

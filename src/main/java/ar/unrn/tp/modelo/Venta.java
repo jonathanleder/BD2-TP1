@@ -20,10 +20,12 @@ public class Venta {
     @GeneratedValue
     private Long id;
     private LocalDateTime fechaHora;
-    @OneToOne
+    @ManyToOne
     Cliente cliente;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "tarjeta_id")
     Tarjeta tarjeta;
+
     @OneToMany(cascade={CascadeType.ALL})
     private List<Producto> items;
 
