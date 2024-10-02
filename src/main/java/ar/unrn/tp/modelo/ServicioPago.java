@@ -1,7 +1,8 @@
-package model;
+package ar.unrn.tp.modelo;
+
 
 public class ServicioPago {
-    public static boolean validarTarjeta(Tarjeta tarjeta) {
-        return tarjeta.esValida() && tarjeta.tieneFondos();
+    public boolean validarTarjeta(Tarjeta tarjeta) {
+        return tarjeta.esValida();
     }
 }

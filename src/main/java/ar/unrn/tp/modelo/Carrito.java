@@ -1,33 +1,47 @@
-package model;
+package ar.unrn.tp.modelo;
+
+import ar.unrn.tp.excepciones.ProductoInvalidoExcepcion;
+import ar.unrn.tp.excepciones.TarjetaInvalidaExcepcion;
+import ar.unrn.tp.modelo.Descuento;
+import ar.unrn.tp.modelo.Producto;
+import ar.unrn.tp.modelo.ServicioPago;
+import ar.unrn.tp.modelo.Tarjeta;
+import lombok.Setter;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
 public class Carrito {
+
+    private Long id;
     private Cliente cliente;
     private List<Producto> items;
-    private Promocion promocionDeCompra;
-    private Promocion promocionDeProducto;
+    private List<Descuento> descuentosDeVentas;
+    @Setter
     private Tarjeta tarjetaSeleccionada;
+    private ServicioPago servicioPago;
 
 
-    public Carrito(Cliente cliente, Tarjeta tarjetaAUtilizar){
-        this.cliente= Objects.requireNonNull(cliente);
-        this.items= new ArrayList<>();
-        this.promocionDeCompra=null;
-        this.promocionDeProducto=null;
-        if (!ServicioPago.validarTarjeta(tarjetaAUtilizar))
-            throw new RuntimeException("La tarjeta debe ser valida");
-        this.tarjetaSeleccionada=tarjetaAUtilizar;
+
+    public Carrito(Cliente cliente, List<Producto> productos, List<Descuento> promociones, ServicioPago servicioTarjetas, Tarjeta tarjetaSeleccionada) {
+        this.cliente = cliente;
+        this.items = productos;
+        this.descuentosDeVentas = promociones;
+        this.servicioPago = servicioTarjetas;
+        this.tarjetaSeleccionada = tarjetaSeleccionada;
     }
 
-    public void agregarPromoDeCompra(PromocionDeCompra promocion){
-        this.promocionDeCompra=Objects.requireNonNull(promocion);
+    public Carrito(List<Producto> listaProductos, List<Descuento> promociones, ServicioPago servicioValidadorTarjetas) {
+        this.items = listaProductos;
+        this.descuentosDeVentas = promociones;
+        this.servicioPago = servicioValidadorTarjetas;
     }
-    public void agregarPromoDeProducto(PromocionDeProducto promocion){
-        this.promocionDeProducto=Objects.requireNonNull(promocion);
-    }
+
+
+
 
     public void agregarAlCarrito(Producto unProducto){
         this.items.add(unProducto);
@@ -40,47 +54,33 @@ public class Carrito {
         }
         return monto;
     }
-    public double calcularMontoConPromos() {
-        double montoTotal = 0;
+    public float calcularMontoConPromos() {
+        float montoTotal = 0;
+        float descuentoDeCompra = 0;
 
         for (Producto producto : items) {
-            double precioConDescuento = producto.getPrecio();
-
-            if (promocionDeProducto.tienePromo(producto.obtenerMarca()) && promocionDeProducto.estaVigente()) {
-                precioConDescuento = promocionDeProducto.aplicarPromocion(precioConDescuento);
+            float precioConDescuento = producto.getPrecio();
+            for (Descuento descuento : descuentosDeVentas) {
+                if (descuento.tienePromo(producto.obtenerMarca()) && descuento.estaVigente()) {
+                    precioConDescuento = descuento.aplicarDescuento(precioConDescuento);
+                }
+                if (descuento.tienePromo(tarjetaSeleccionada.tipoDeTarjeta()) && descuento.estaVigente()) {
+                    descuentoDeCompra += descuento.descuento();
+                }
             }
             montoTotal += precioConDescuento;
         }
-        if (promocionDeCompra.tienePromo(tarjetaSeleccionada.tipoDeTarjeta()) && promocionDeCompra.estaVigente()) {
 
-            montoTotal = promocionDeCompra.aplicarPromocion(montoTotal);
-        }
+        if (descuentoDeCompra != 0)
+            montoTotal = montoTotal - (montoTotal * descuentoDeCompra); // Aplicar el descuento como porcentaje
         return montoTotal;
     }
-    public double calcularMontoConPromoDeProducto(){
-        double montoTotal = 0;
 
-        for (Producto producto : items) {
-            double precioConDescuento = producto.getPrecio();
+    public Venta realizarPago() throws TarjetaInvalidaExcepcion, ProductoInvalidoExcepcion {
 
-            if (promocionDeProducto.tienePromo(producto.obtenerMarca())) {
-                precioConDescuento = promocionDeProducto.aplicarPromocion(precioConDescuento);
-            }
-            montoTotal += precioConDescuento;
-        }
-        return montoTotal;
-    }
-    public double calcularMontoConPromoDeCompra(){
-        double montoTotal = calcularMontoSinPromos();
-
-        return this.promocionDeCompra.aplicarPromocion(montoTotal);
+        if (servicioPago.validarTarjeta(this.tarjetaSeleccionada))
+            return new Venta(this.cliente,this.items,this.calcularMontoConPromos(),descuentosDeVentas, this.tarjetaSeleccionada);
+        throw new TarjetaInvalidaExcepcion();
     }
 
-    public Venta realizarPago(){
-        this.cliente.realizarPago(this.calcularMontoConPromos(),this.tarjetaSeleccionada);
-        List<Promocion> promos= new ArrayList<>();
-        promos.add(this.promocionDeProducto);
-        promos.add(this.promocionDeCompra);
-        return new Venta(this.cliente,this.items,this.calcularMontoConPromos(),promos);
-    }
 }

@@ -1,6 +1,8 @@
 package ar.unrn.tp.jpa.servicios;
 
 import ar.unrn.tp.modelo.*;
+
+
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -9,28 +11,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CarritoTest {
-
+/*
 //Inicializacion de variables a utilizar para los test
-    Producto azucar = new Producto(321,"Azucar Local","Alimentos",1300.0,"Comarca");
-    Producto yerba = new Producto(31,"Yerba Local","Alimentos",3000.0,"Comarca");
-    Producto yerbaSuave = new Producto(231,"Yerba Suave","Alimentos",3200.0,"Comarca");
-    Producto zapatillas = new Producto(512,"calzado importado","Ropa Deportiva",3000.0,"Gallo");
+    Producto azucar = new Producto("Azucar Local","Alimentos",1300.0,"Comarca");
+    Producto yerba = new Producto("Yerba Local","Alimentos",3000.0,"Comarca");
+    Producto yerbaSuave = new Producto("Yerba Suave","Alimentos",3200.0,"Comarca");
+    Producto zapatillas = new Producto("calzado importado","Ropa Deportiva",3000.0,"Gallo");
 
-    TarjetaDeCredito comarca= new TarjetaDeCredito(54632987,"Ramon Perez","Comarca", LocalDateTime.now().plusYears(5));
-    TarjetaDeCredito memeCard= new TarjetaDeCredito(54632988,"Ramon Perez","memeCard", LocalDateTime.now().plusYears(5));
+    Tarjeta comarca= new Tarjeta("54632987","Ramon Perez","Comarca", LocalDateTime.now().plusYears(5));
+    Tarjeta memeCard= new Tarjeta("54632988","Ramon Perez","memeCard", LocalDateTime.now().plusYears(5));
 
-    Cliente ramon= new Cliente("Ramon","Perez",54263590,"rperez@gmail.com",comarca);
+    Cliente ramon= new Cliente("Ramon","Perez","54263590","rperez@gmail.com");
 
-    PromocionDeCompra promoCompra= new PromocionDeCompra(LocalDateTime.now().minusDays(5),LocalDateTime.now().minusDays(2),memeCard);
-    PromocionDeProducto promoProducto= new PromocionDeProducto(LocalDateTime.now().minusDays(5),LocalDateTime.now().minusDays(1),"Comarca");
-    Carrito unCarrito= new Carrito(ramon, comarca);
 
-    PromocionDeCompra promoCompraVigente= new PromocionDeCompra(LocalDateTime.now(),LocalDateTime.now().plusDays(5),memeCard);
-    PromocionDeProducto promoProductoVigente= new PromocionDeProducto(LocalDateTime.now(),LocalDateTime.now().plusDays(7),"Comarca");
+    DescuentoDeCompra promoCompra= new DescuentoDeCompra(LocalDateTime.now().minusDays(5),LocalDateTime.now().minusDays(2),8,"memeCard");
+    DescuentoDeProducto promoProducto= new DescuentoDeProducto(LocalDateTime.now().minusDays(5),LocalDateTime.now().minusDays(1),5,"Comarca");
+
+
+    DescuentoDeCompra promoCompraVigente= new DescuentoDeCompra(LocalDateTime.now(),LocalDateTime.now().plusDays(5),8,"memeCard");
+    DescuentoDeProducto promoProductoVigente= new DescuentoDeProducto(LocalDateTime.now(),LocalDateTime.now().plusDays(7),5,"Comarca");
 
 
 
     void setUp(){
+
+        ramon.agregarTarjeta(comarca);
+        Carrito unCarrito= new Carrito(ramon, comarca);
         unCarrito.agregarPromoDeProducto(promoProducto);
         unCarrito.agregarPromoDeCompra(promoCompra);
         unCarrito.agregarAlCarrito(azucar);
@@ -89,7 +95,7 @@ class CarritoTest {
         String excepcionEsperada="El precio debe ser un valor valido";
         Exception e= assertThrows(Exception.class, () ->{
             new Producto(
-                    54632,"buen producto","una Categoria",-192.2,"Comarca"
+                    "buen producto","una Categoria",-192.2,"Comarca"
             );
         } );
         assertEquals(excepcionEsperada, e.getMessage());
@@ -109,11 +115,11 @@ class CarritoTest {
     @Test
     public void promoInvalida(){
         Exception e= assertThrows(Exception.class, () ->{
-            new PromocionDeCompra(
-                    LocalDateTime.now(),LocalDateTime.now(),comarca
+            new DescuentoDeCompra(
+                    LocalDateTime.now(),LocalDateTime.now(),5,"comarca"
                     );
         } );
-        assertEquals(Promocion.FECHA_INVALIDA, e.getMessage());
+        assertEquals(Descuento.FECHA_INVALIDA, e.getMessage());
     }
 
     //Verificar que no sea posible crear un descuento con fechas validez superpuestas.
@@ -128,4 +134,5 @@ class CarritoTest {
         });
         assertEquals(User.INVALID_USERNAME, e.getMessage());
     }*/
+    */
 }

@@ -1,35 +1,93 @@
-package model;
+package ar.unrn.tp.modelo;
+import ar.unrn.tp.excepciones.ProductoInvalidoExcepcion;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.Objects;
 
-public class Producto {
-    private int codigo;
-    private String descripcion;
-    private String categoria;
-    private String marca;
-    private double precio;
 
-    public Producto(int codigo, String descripcion, String unaCategoria, Double precio, String marca){
-        this.codigo= Objects.requireNonNull(codigo);
+@Entity
+@Getter
+@NoArgsConstructor
+public class Producto {
+
+    @Id
+    @GeneratedValue
+    private long id;
+
+
+    private String codigo;
+    @ManyToOne
+    private Marca marca;
+    @ManyToOne
+    private Categoria categoria;
+
+    private String descripcion;
+    private float precio;
+
+
+    public Producto(String codigo,String descripcion, Categoria unaCategoria,Marca marca, float precio) throws ProductoInvalidoExcepcion {
+
+        this.codigo = Objects.requireNonNull(codigo,"El codigo no debe estar repetido");
         this.descripcion=Objects.requireNonNull(descripcion,"Debe ingresar una descripcion Valida");
         this.categoria=Objects.requireNonNull(unaCategoria,"Debe ingresar una categoria valida");
-        if(precio<=0 || precio==null) {
+        if(precio<=0) {
             throw new IllegalArgumentException("El precio debe ser un valor valido");
         }
         this.precio=precio;
         this.marca=Objects.requireNonNull(marca);
     }
 
-    protected double getPrecio(){
+
+
+
+    public float getPrecio(){
         return this.precio;
     }
     public String obtenerMarca(){
-        return this.marca;
+        return this.marca.marca();
     }
     public String descripcion(){
         return this.descripcion;
     }
-    public String categoria(){
+    public Categoria categoria(){
         return this.categoria;
     }
+
+    public void actualizarCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+
+    public void actualizarDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void actualizarMarca(Marca marca) {
+        this.marca = marca;
+    }
+
+    public void actualizarPrecio(float precio) {
+        this.precio = precio;
+    }
+
+    public void actualizarCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+
+    public Long id(){
+        return this.id;
+    }
+
+
+    public boolean esIgualA(Producto productoResultado) {
+        return this.codigo.equals(productoResultado.codigo);
+    }
+
+
 }

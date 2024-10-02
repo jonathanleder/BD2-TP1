@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             version="2.0">
+
+    <persistence-unit name="jpa-objectdb">
+        <description>My Persistence Unit</description>
+        <provider>com.objectdb.jpa.Provider</provider>
+        <properties>
+            <property name="javax.persistence.jdbc.url"
+                      value="objectdb:\Users\jonyl\IdeaProjects\BD2-TP1\myDB.odb"/>
+
+            <property name="javax.persistence.jdbc.user" value="admin"/>
+            <property name="javax.persistence.jdbc.password"
+                      value="admin"/>
+
+            <!--            <property name="jakarta.persistence.jdbc.url"-->
+            <!--                      value="objectdb:\Users\jonyl\IdeaProjects\BD2-TP1\myDB.odb"/>-->
+            <!--            <property name="jakarta.persistence.jdbc.user" value="admin"/>-->
+            <!--            <property name="jakarta.persistence.jdbc.password" value="admin"/>-->
+        </properties>
+    </persistence-unit>
+</persistence>
