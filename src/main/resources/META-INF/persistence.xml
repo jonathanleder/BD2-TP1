@@ -16,18 +16,12 @@
     <persistence-unit name="jpa-postgresql">
         <description>Postgresql Persistence Unit</description>
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>ar.unrn.tp.modelo.Cliente</class>
-        <class>ar.unrn.tp.modelo.Producto</class>
-        <class>ar.unrn.tp.modelo.Venta</class>
-        <class>ar.unrn.tp.modelo.Carrito</class>
-        <class>ar.unrn.tp.modelo.Categoria</class>
-        <class>ar.unrn.tp.modelo.Descuento</class>
-        <class>ar.unrn.tp.modelo.Marca</class>
-        <class>ar.unrn.tp.modelo.Tarjeta</class>
+
         <!-- Añade aquí todas las clases de entidad que necesitas mapear -->
 
         <properties>
             <!-- Postgresql connection configuration -->
+            <property name="spring.datasource.initialize" value="false"/>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://motty.db.elephantsql.com:5432/vqcgdmes"/>
             <property name="javax.persistence.jdbc.user" value="vqcgdmes"/>

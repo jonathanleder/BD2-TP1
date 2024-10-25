@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(name = "Tarjeta")
 public class Tarjeta {
 
     @Id

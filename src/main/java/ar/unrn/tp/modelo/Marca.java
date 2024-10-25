@@ -6,10 +6,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(name = "Marca")
 public class Marca {
 
 

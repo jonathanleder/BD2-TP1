@@ -5,11 +5,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @NoArgsConstructor
 @Getter
 @Entity
-
+@Table(name = "Categoria")
 public class Categoria{
     @Id
     @GeneratedValue

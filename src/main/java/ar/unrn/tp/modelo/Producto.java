@@ -11,6 +11,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(name = "Producto")
 public class Producto {
 
     @Id

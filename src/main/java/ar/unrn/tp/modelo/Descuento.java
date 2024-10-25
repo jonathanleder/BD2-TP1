@@ -11,7 +11,7 @@ import java.util.Objects;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @NoArgsConstructor
 @Getter
-
+@Table(name = "Descuento")
 public abstract class Descuento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

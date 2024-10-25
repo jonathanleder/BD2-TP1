@@ -40,3 +40,4 @@ build/
 myDbTestFile.tmp
 BD2-TP1.iml
 TestingFile.tmp
+persistence.xml
