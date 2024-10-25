@@ -5,6 +5,7 @@ import ar.unrn.tp.excepciones.FechaInvalidaExcepcion;
 import ar.unrn.tp.modelo.Descuento;
 import ar.unrn.tp.modelo.DescuentoDeCompra;
 import ar.unrn.tp.modelo.DescuentoDeProducto;
+import ar.unrn.tp.modelo.Producto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +63,37 @@ public class JPADescuentoService extends JPAGenericService implements DescuentoS
         });
         return descuentos;
 
+    }
+
+    @Override
+    public void eliminarTodosLosDescuentos() {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            // Iniciar la transacción
+            em.getTransaction().begin();
+
+            // Consulta para obtener todos los productos
+            List<Descuento> descuentos = em.createQuery("SELECT d FROM Descuento d", Descuento.class)
+                    .getResultList();
+
+            // Eliminar cada producto
+            for (Descuento descuento : descuentos) {
+                em.remove(descuento);
+            }
+
+            // Confirmar la transacción
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            // Si ocurre un error, revertir la transacción
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            // Cerrar el EntityManager
+            em.close();
+        }
     }
 }
 

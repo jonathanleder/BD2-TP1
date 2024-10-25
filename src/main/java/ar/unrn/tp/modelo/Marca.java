@@ -8,10 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Entity;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class Marca {
 
-    @Getter
+
     @Id
     @GeneratedValue
     private Long id;
@@ -20,9 +21,6 @@ public class Marca {
 
     public Marca(String nombre) {
         this.nombre = nombre;
-    }
-    public String marca(){
-        return this.nombre;
     }
 
 }

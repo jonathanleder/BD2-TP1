@@ -1,14 +1,12 @@
 package ar.unrn.tp.jpa.servicios;
 
 
+import ar.unrn.tp.modelo.Marca;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 import java.util.function.Consumer;
 
 
@@ -21,13 +19,9 @@ public abstract class JPAGenericService {
         this.emf = emf;
     }
 
-    private void setUp(){
-        //this.emf = Persistence.createEntityManagerFactory("objectdb:myDbTestFile.tmp");
-    }
-
 
     public void inTransactionExecute(Consumer<EntityManager> bloqueDeCodigo) {
-        this.setUp();
+
         EntityManager em = this.emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -47,6 +41,8 @@ public abstract class JPAGenericService {
 
 
     public void tearDown() {
-        this.emf.close();
+        if (this.emf.isOpen()) {
+            this.emf.close();
+        }
     }
 }

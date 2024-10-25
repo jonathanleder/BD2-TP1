@@ -15,24 +15,22 @@ import java.time.LocalDate;
 public class DescuentoDeCompra extends Descuento {
 
 
-    private String tardejaDeDescuento;
-
 
 
     public DescuentoDeCompra(LocalDate fechaInicio, LocalDate fechaFin, float porcentajeDeDescuento, String unaTarjeta) throws FechaInvalidaExcepcion {
-        super(fechaInicio, fechaFin, porcentajeDeDescuento);
-        this.tardejaDeDescuento= unaTarjeta;
+        super(fechaInicio, fechaFin, porcentajeDeDescuento,unaTarjeta);
+
     }
 
 
     @Override
     public boolean tienePromo(String dato) {
-        return dato.equals(this.tardejaDeDescuento);
+        return this.descripcion.equals(dato);
     }
 
     @Override
     protected String marca() {
-        return this.tardejaDeDescuento;
+        return this.descripcion;
     }
 
 

@@ -60,4 +60,35 @@ public class JPAProductoService extends JPAGenericService implements ProductoSer
         });
         return productos;
     }
+
+    @Override
+    public void eliminarTodosLosProductos() {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            // Iniciar la transacción
+            em.getTransaction().begin();
+
+            // Consulta para obtener todos los productos
+            List<Producto> productos = em.createQuery("SELECT p FROM Producto p", Producto.class)
+                    .getResultList();
+
+            // Eliminar cada producto
+            for (Producto producto : productos) {
+                em.remove(producto);
+            }
+
+            // Confirmar la transacción
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            // Si ocurre un error, revertir la transacción
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            // Cerrar el EntityManager
+            em.close();
+        }
+    }
 }

@@ -1,21 +1,30 @@
+# Selección de unidad de persistencia
 app:
-  db: "jpa-objectdb"
-  spring:
-    jpa:
-      show-sql: true
-      properties:
-        hibernate:
-          ddl-auto: update
-          format_sql: true
-  #ObjectDB: jpa-objectdb
-#PosgresSQL: jpa-postgres
-#spring:
-#  datasource:
-#    url: jdbc:postgresql://localhost:5010/almacen
-#    username: admin
-#    password: admin
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: true
-#    database: postgresql
+  db: "postgresql"  # Cambia a "postgresql" para usar PostgreSQL
+
+# Configuración para ObjectDB
+objectdb:
+  datasource:
+    url: objectdb:./myDB.odb
+    username: admin
+    password: admin
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: update  # Si deseas crear o actualizar el esquema según las entidades
+        show_sql: true
+        format_sql: true
+
+# Configuración para PostgreSQL
+postgresql:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://motty.db.elephantsql.com:5432/vqcgdmes
+    username: vqcgdmes
+    password: eDptWBQJzco_8M76dVJX3h9P4k_qQ0WT
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+      show_sql: true
+      format_sql: true

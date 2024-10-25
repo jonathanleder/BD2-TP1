@@ -58,14 +58,22 @@ public class Carrito {
         float montoTotal = 0;
         float descuentoDeCompra = 0;
 
+
         for (Producto producto : items) {
             float precioConDescuento = producto.getPrecio();
             for (Descuento descuento : descuentosDeVentas) {
-                if (descuento.tienePromo(producto.obtenerMarca()) && descuento.estaVigente()) {
+                //System.out.println(" Descripcion del descuento: "+ descuento.getDescripcion() +
+                 //       "\n el descuento es de: "+ descuento.getDescuento() + "\n La marca es: "+descuento.marca());
+                System.out.println("nombre del descuento: "+descuento.marca() + "nombre de producto: "+producto.obtenerMarca());
+                if (descuento.tienePromo(producto.getDescripcion()) && descuento.estaVigente()) {
+                    System.out.println("\nel precio que tiene descuento es: "+precioConDescuento+
+                            "que es el producto: "+producto.obtenerMarca());
                     precioConDescuento = descuento.aplicarDescuento(precioConDescuento);
+                    System.out.println("\nPrecio con descuento despues de aplicarlo: "+precioConDescuento);
                 }
                 if (descuento.tienePromo(tarjetaSeleccionada.tipoDeTarjeta()) && descuento.estaVigente()) {
-                    descuentoDeCompra += descuento.descuento();
+
+                    descuentoDeCompra = descuento.descuento();
                 }
             }
             montoTotal += precioConDescuento;
@@ -73,6 +81,7 @@ public class Carrito {
 
         if (descuentoDeCompra != 0)
             montoTotal = montoTotal - (montoTotal * descuentoDeCompra); // Aplicar el descuento como porcentaje
+       // System.out.println("El monto total es: "+ montoTotal);
         return montoTotal;
     }
 

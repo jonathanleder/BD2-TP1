@@ -6,6 +6,9 @@ import ar.unrn.tp.modelo.Producto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -21,7 +24,9 @@ public class ProductoController {
     @PostMapping("/crear")
     public ResponseEntity<?> create(@RequestBody Producto producto) {
         this.productoService.crearProducto(producto.getCodigo(),producto.getDescripcion(),producto.getPrecio(),producto.getCategoria().getId(),producto.getMarca().getId());
-        return ResponseEntity.status(OK).body("El producto se añadió con éxito!");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "El producto se añadió con éxito!");
+        return ResponseEntity.status(OK).body(response);
     }
 
     @GetMapping("/listar")

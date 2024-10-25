@@ -44,14 +44,37 @@ public class JPAVentaService extends JPAGenericService implements VentaService {
 
     @Override
     public float calcularMonto(List<Long> productos, Long idTarjeta) {
+
+        System.out.println("entro al JPAVentaService: " +productos.size() +" "+idTarjeta);
         AtomicReference<Float> monto = new AtomicReference<>(0F);
         inTransactionExecute((em) -> {
             Tarjeta tarjetaCredito = em.find(Tarjeta.class, idTarjeta);
-            List<Producto> listaProductos = em.createQuery("SELECT o FROM Producto o WHERE o.id IN :ids", Producto.class).setParameter("ids", productos).getResultList();
+            if (tarjetaCredito == null) {
+                throw new IllegalArgumentException("Tarjeta no encontrada con ID: " + idTarjeta);
+            }
+
+            List<Producto> listaProductos = em.createQuery("SELECT o FROM Producto o WHERE o.id IN :ids", Producto.class)
+                    .setParameter("ids", productos)
+                    .getResultList();
+
+
+            // Check for null or invalid products
+            for (Producto producto : listaProductos) {
+                System.out.println("\nProducto: "+producto.descripcion() + " \nMarca: "+producto.obtenerMarca()+
+                        "\n precio: "+producto.getPrecio());
+                if (producto == null || producto.getDescripcion() == null) {
+                    throw new IllegalStateException("Producto inválido encontrado. ID: " +
+                            (producto != null ? producto.id() : "null"));
+                }
+            }
+            System.out.println("paso la validacion de producto");
             List<Descuento> promociones = this.descuentoService.recuperarDescuentos();
             Carrito carrito = new Carrito(listaProductos, promociones, this.servicioValidadorTarjetas);
+            System.out.println("la tarjeta es: "+ tarjetaCredito.getTipoTarjeta() + "\n numero: "+tarjetaCredito.getNumero()+
+                    "\n otro dato(id): "+ tarjetaCredito.getId());
             carrito.setTarjetaSeleccionada(tarjetaCredito);
             monto.set(carrito.calcularMontoConPromos());
+            System.out.println("el valor total es de: "+monto.get());
         });
         return monto.get();
     }

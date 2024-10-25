@@ -15,4 +15,6 @@ public interface DescuentoService {
             fechaHasta, float porcentaje);
 
     List<Descuento> recuperarDescuentos();
+
+    void eliminarTodosLosDescuentos();
 }

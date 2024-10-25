@@ -20,10 +20,11 @@ public abstract class Descuento {
     protected LocalDate fechaInicio;
     protected LocalDate fechaFin;
     protected float descuento;
+    protected String descripcion;
 
     public static String FECHA_INVALIDA="Las fechas no se pueden superponer o la fecha inicio no puede ser superior a la fecha de fin";
 
-    public Descuento(LocalDate fechaInicio, LocalDate fechaFin, float descuentoEnPorcentaje){
+    public Descuento(LocalDate fechaInicio, LocalDate fechaFin, float descuentoEnPorcentaje, String marca){
         if(fechaInicio.isAfter(fechaFin)){
             throw new IllegalArgumentException(FECHA_INVALIDA);
         }
@@ -34,6 +35,7 @@ public abstract class Descuento {
         if(descuentoEnPorcentaje < 0 || descuentoEnPorcentaje > 100)
             throw new IllegalArgumentException("El valor del descuento no puede superar el 100% o ser menor a 1");
         this.descuento= (descuentoEnPorcentaje /100);
+        this.descripcion=marca;
     }
 
 

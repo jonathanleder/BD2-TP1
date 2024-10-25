@@ -1,14 +1,22 @@
 package ar.unrn.tp;
 
 
+import ar.unrn.tp.jpa.servicios.JPAProductoService;
+import ar.unrn.tp.modelo.Marca;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+
 @SpringBootApplication(scanBasePackages = {"ar.unrn.tp"})
 public class Main {
+
+
+
+
+
     public static void main(String[] args) {
 
 
@@ -25,6 +33,9 @@ public class Main {
             }
         };
     }
+
+
+
 
 
 

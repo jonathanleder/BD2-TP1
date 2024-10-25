@@ -18,25 +18,22 @@ import java.util.Objects;
 public class DescuentoDeProducto extends Descuento {
 
 
-    private String marca;
-
-
 
 
     public DescuentoDeProducto(LocalDate fechaInicio, LocalDate fechaFin, float porcentajeDeDescuento, String unaMarca) throws FechaInvalidaExcepcion {
-        super(fechaInicio, fechaFin, porcentajeDeDescuento);
-        this.marca=Objects.requireNonNull(unaMarca);
+        super(fechaInicio, fechaFin, porcentajeDeDescuento,unaMarca);
+
     }
 
 
     @Override
     public boolean tienePromo(String dato) {
-        return this.marca.equals(dato);
+        return this.descripcion.equals(dato);
     }
 
     @Override
     protected String marca() {
-        return this.marca;
+        return this.descripcion;
     }
 
 

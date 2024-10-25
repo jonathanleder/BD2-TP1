@@ -25,7 +25,7 @@ public class Producto {
     @ManyToOne
     private Categoria categoria;
 
-    private String descripcion;
+    private String descripcion = "";
     private float precio;
 
 
@@ -48,7 +48,7 @@ public class Producto {
         return this.precio;
     }
     public String obtenerMarca(){
-        return this.marca.marca();
+        return this.marca.getNombre();
     }
     public String descripcion(){
         return this.descripcion;
