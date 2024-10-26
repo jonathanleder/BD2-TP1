@@ -6,8 +6,8 @@ import ar.unrn.tp.modelo.Marca;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +15,7 @@ import java.util.List;
 public class JPAMarcaService extends JPAGenericService implements MarcaService {
 
 
+    @Autowired
     public JPAMarcaService(EntityManagerFactory emf) {
         super(emf);
     }

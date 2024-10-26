@@ -3,6 +3,7 @@ package ar.unrn.tp.web;
 
 import ar.unrn.tp.api.ProductoService;
 import ar.unrn.tp.modelo.Producto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping("productos")
 public class ProductoController {
 
+    @Autowired
     private ProductoService productoService;
 
     public ProductoController(ProductoService productoService) {

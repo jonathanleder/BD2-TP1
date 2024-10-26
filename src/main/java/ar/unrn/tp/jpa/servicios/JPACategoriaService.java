@@ -6,8 +6,8 @@ import ar.unrn.tp.modelo.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 public class JPACategoriaService extends JPAGenericService implements CategoriaService {
 
 
-
+    @Autowired
     public JPACategoriaService(EntityManagerFactory emf) {
         super(emf);
     }

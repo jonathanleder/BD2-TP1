@@ -7,7 +7,7 @@ import ar.unrn.tp.modelo.Tarjeta;
 
 
 import org.junit.jupiter.api.Test;
-import javax.persistence.Persistence;
+import jakarta.persistence.Persistence;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

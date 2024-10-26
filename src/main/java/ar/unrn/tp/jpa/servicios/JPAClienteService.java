@@ -8,15 +8,16 @@ import ar.unrn.tp.modelo.Tarjeta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class JPAClienteService extends JPAGenericService implements ClienteService {
 
+    @Autowired
     public JPAClienteService(EntityManagerFactory emf) {
         super(emf); // Pasar el EntityManagerFactory al constructor de la clase padre
     }

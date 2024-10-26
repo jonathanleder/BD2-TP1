@@ -6,6 +6,7 @@ import ar.unrn.tp.api.VentaService;
 import ar.unrn.tp.dto.VentaDTO;
 import ar.unrn.tp.modelo.Producto;
 import ar.unrn.tp.modelo.Venta;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping("ventas")
 public class VentaController {
 
+    @Autowired
     private final VentaService ventaService;
     //private final DescuentoService descuentoService;
    // private final ProductoService productoService;

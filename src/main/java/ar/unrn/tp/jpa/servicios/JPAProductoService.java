@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,7 @@ public class JPAProductoService extends JPAGenericService implements ProductoSer
 
 
 
+    @Autowired
     public JPAProductoService(EntityManagerFactory emf) {
         super(emf);
     }

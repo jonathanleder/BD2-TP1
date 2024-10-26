@@ -3,8 +3,8 @@ import ar.unrn.tp.excepciones.ProductoInvalidoExcepcion;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.jdo.annotations.Unique;
-import javax.persistence.*;
+
+import jakarta.persistence.*;
 import java.util.Objects;
 
 

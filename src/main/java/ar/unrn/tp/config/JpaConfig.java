@@ -3,16 +3,16 @@ package ar.unrn.tp.config;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 
 @Configuration
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -20,13 +20,12 @@ import javax.persistence.Persistence;
 @EnableTransactionManagement
 public class JpaConfig {
 
-   // @Value("${app.db}") // Obtenemos "jpa-objectdb" o "jpa-posgresql" de application.yml
-    //String nameProvider;
-
     @Bean
-    public EntityManagerFactory entityManagerFactory() {
-        log.info("CREATE Entity Manager Factory using persistence unit: " + "jpa-objectdb");
-        return Persistence.createEntityManagerFactory("jpa-objectdb");
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        factoryBean.setPackagesToScan("ar.unrn.tp.modelo");
+        factoryBean.setPersistenceUnitName("jpa-postgresql"); // Nombre del persistence-unit
+        return factoryBean;
     }
 
     @Bean

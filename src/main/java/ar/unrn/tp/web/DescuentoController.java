@@ -2,6 +2,7 @@ package ar.unrn.tp.web;
 
 import ar.unrn.tp.api.DescuentoService;
 import ar.unrn.tp.dto.DescuentoDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping("descuentos")
 public class DescuentoController {
 
+    @Autowired
     private DescuentoService descuentoService;
 
     public DescuentoController(DescuentoService descuentoService) {

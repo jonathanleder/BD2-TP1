@@ -14,6 +14,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping("categorias")
 public class CategoriaController {
 
+    @Autowired
     private CategoriaService categoriaService;
 
     public CategoriaController(CategoriaService categoriaService){

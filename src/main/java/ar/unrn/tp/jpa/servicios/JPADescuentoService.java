@@ -9,8 +9,8 @@ import ar.unrn.tp.modelo.Producto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ public class JPADescuentoService extends JPAGenericService implements DescuentoS
 
 
 
+    @Autowired
     public JPADescuentoService(EntityManagerFactory emf) {
        super(emf);
     }

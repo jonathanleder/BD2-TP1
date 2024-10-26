@@ -8,7 +8,7 @@ import ar.unrn.tp.modelo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -20,6 +20,7 @@ public class JPAVentaService extends JPAGenericService implements VentaService {
     private DescuentoService descuentoService;
 
 
+    @Autowired
     public JPAVentaService(ServicioPago servicioValidadorTarjetas, DescuentoService descuentoService, EntityManagerFactory emf){
         super(emf);
         this.descuentoService = descuentoService;

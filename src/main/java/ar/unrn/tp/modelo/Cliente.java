@@ -5,7 +5,7 @@ import ar.unrn.tp.excepciones.EmailInvalidoExcepcion;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.*;
 
 @Entity

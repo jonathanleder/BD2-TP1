@@ -6,15 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.function.Consumer;
 
-
+@Service
 public abstract class JPAGenericService {
 
     protected EntityManagerFactory emf;
 
-
+    @Autowired
     public JPAGenericService(EntityManagerFactory emf) {
         this.emf = emf;
     }
