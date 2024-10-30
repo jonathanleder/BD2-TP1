@@ -5,6 +5,7 @@ import ar.unrn.tp.excepciones.ProductoInvalidoExcepcion;
 import ar.unrn.tp.modelo.Categoria;
 import ar.unrn.tp.modelo.Marca;
 import ar.unrn.tp.modelo.Producto;
+import jakarta.persistence.OptimisticLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import jakarta.persistence.Query;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class JPAProductoService extends JPAGenericService implements ProductoService {
@@ -40,15 +42,27 @@ public class JPAProductoService extends JPAGenericService implements ProductoSer
     }
 
     @Override
-    public void modificarProducto(Long idProducto, String descripcion, float precio) {
+    public void modificarProducto(Long idProducto, String codigo, String descripcion, float precio, Long idCategoria, Long idMarca, Integer version) {
         inTransactionExecute((em) -> {
             try {
+                Marca marca = em.getReference(Marca.class, idMarca);
+                Categoria categoria = em.getReference(Categoria.class, idCategoria);
                 Producto producto = em.getReference(Producto.class, idProducto);
+                if(!version.equals(producto.getVersion())) {
+                    throw new OptimisticLockException();
+                }
+
                 producto.actualizarDescripcion(descripcion);
+                producto.actualizarCodigo(codigo);
+                producto.actualizarCategoria(categoria);
+                producto.actualizarMarca(marca);
                 producto.actualizarPrecio(precio);
+
                 em.persist(producto);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            } catch (OptimisticLockException o) {
+                throw new RuntimeException("Ups! sucedió un error concurrente :(");
+            } catch(Exception e){
+                throw new RuntimeException("Ups! sucedió un error al actualizar el producto :(");
             }
         });
     }
@@ -60,6 +74,17 @@ public class JPAProductoService extends JPAGenericService implements ProductoSer
             productos.addAll(em.createQuery("SELECT p FROM Producto p", Producto.class).getResultList());
         });
         return productos;
+    }
+
+    @Override
+    public Producto buscarProducto(Long idProducto) {
+
+        AtomicReference<Producto> producto = new AtomicReference<>();
+        inTransactionExecute((em) -> {
+            producto.set(em.find(Producto.class, idProducto));
+
+        });
+        return producto.get();
     }
 
     @Override

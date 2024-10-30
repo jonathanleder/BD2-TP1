@@ -32,18 +32,15 @@ public class Tarjeta {
     }
 
 
-
-    public String numeroDeTarjeta(){
-        return this.numero;
-    }
-
     public boolean esValida() {
         return this.fechaVencimiento.isAfter(LocalDateTime.now());
     }
 
 
-    public String tipoDeTarjeta() {
-        return this.tipoTarjeta;
+
+    @Override
+    public String toString() {
+        return ("Tarjeta: \n"+"Tipo/marca: "+this.tipoTarjeta +"\nNumero: "+ this.getNumero());
     }
 
 

@@ -71,7 +71,7 @@ public class Carrito {
                     precioConDescuento = descuento.aplicarDescuento(precioConDescuento);
                     System.out.println("\nPrecio con descuento despues de aplicarlo: "+precioConDescuento);
                 }
-                if (descuento.tienePromo(tarjetaSeleccionada.tipoDeTarjeta()) && descuento.estaVigente()) {
+                if (descuento.tienePromo(tarjetaSeleccionada.getTipoTarjeta()) && descuento.estaVigente()) {
 
                     descuentoDeCompra = descuento.descuento();
                 }

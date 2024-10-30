@@ -40,7 +40,8 @@ public class ClienteController {
 
     @PutMapping("/agregar-tarjeta/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Tarjeta tarjeta) {
-        this.clienteService.agregarTarjeta(id,tarjeta.getNumero(),tarjeta.tipoDeTarjeta());
+        System.out.println("\nel id ingresado es: "+id+"\n y los datos de la tarjeta son: "+ tarjeta.getTipoTarjeta()+"\t"+tarjeta.getNumero()+"\n");
+        this.clienteService.agregarTarjeta(id,tarjeta.getTipoTarjeta(),tarjeta.getNumero());
         return ResponseEntity.status(OK).body("La tarjeta se añadió con éxito!");
     }
 

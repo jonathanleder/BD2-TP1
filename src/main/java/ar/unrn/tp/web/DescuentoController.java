@@ -20,13 +20,17 @@ public class DescuentoController {
     }
 
     @PostMapping("/crear/compra/{producto}")
-    public ResponseEntity<?> createDescuentoCompra(@PathVariable String producto,@RequestBody DescuentoDTO descuento) {
+    public ResponseEntity<?> createDescuentoProducto(@PathVariable String producto,@RequestBody DescuentoDTO descuento) {
+
+        System.out.println("entro a descuento de producto:\n producto: "+producto+"\n descuento: "+descuento.getMarca()+" "+descuento.getPorcentaje());
         this.descuentoService.crearDescuento(producto,descuento.getFechaInicio(),descuento.getFechaFin(),descuento.getPorcentaje());
         return ResponseEntity.status(OK).body("El descuento se creo con éxito!");
     }
 
     @PostMapping("/crear/producto/{tarjeta}")
-    public ResponseEntity<?> createDescuentoProducto(@PathVariable String tarjeta,@RequestBody DescuentoDTO descuento) {
+    public ResponseEntity<?> createDescuentoCompra(@PathVariable String tarjeta,@RequestBody DescuentoDTO descuento) {
+
+        System.out.println("entro a descuento de producto:\n tarjeta: "+tarjeta+"\n descuento: "+descuento.getMarca()+" "+descuento.getPorcentaje());
         this.descuentoService.crearDescuentoSobreTotal(tarjeta,descuento.getFechaInicio(),descuento.getFechaFin(),descuento.getPorcentaje());
         return ResponseEntity.status(OK).body("El descuento se creo con éxito!");
     }

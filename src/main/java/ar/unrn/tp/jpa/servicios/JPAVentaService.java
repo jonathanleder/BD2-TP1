@@ -103,7 +103,7 @@ public class JPAVentaService extends JPAGenericService implements VentaService {
                 if (descuento.tienePromo(producto.obtenerMarca()) && descuento.estaVigente()) {
                     precioConDescuento = descuento.aplicarDescuento(precioConDescuento);
                 }
-                if (descuento.tienePromo(tarjeta.tipoDeTarjeta()) && descuento.estaVigente()) {
+                if (descuento.tienePromo(tarjeta.getTipoTarjeta()) && descuento.estaVigente()) {
                     descuentoDeCompra += descuento.descuento();
                 }
             }

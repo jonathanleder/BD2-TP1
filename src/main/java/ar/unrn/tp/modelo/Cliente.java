@@ -48,7 +48,7 @@ public class Cliente {
 
     public boolean buscarTarjeta(Tarjeta tarjetaBuscada){
         for (Tarjeta unaTarjeta: tarjetas){
-            if (unaTarjeta.numeroDeTarjeta().equals(tarjetaBuscada.numeroDeTarjeta()))
+            if (unaTarjeta.getNumero().equals(tarjetaBuscada.getNumero()))
                 return true;
         }
         throw new RuntimeException("El numero de tarjeta ingresada no coincide con sus tarjetas registradas");
@@ -91,8 +91,9 @@ public class Cliente {
         return this.id;
     }
 
+
     @Override
     public String toString(){
-        return "Nombre: "+nombre+", Apellido: "+apellido+", DNI: "+dni;
+        return "Nombre: "+nombre+", Apellido: "+apellido+", DNI: "+dni + this.tarjetas.toString();
     }
 }

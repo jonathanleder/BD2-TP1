@@ -2,6 +2,7 @@ package ar.unrn.tp.modelo;
 
 import ar.unrn.tp.excepciones.FechaInvalidaExcepcion;
 import ar.unrn.tp.modelo.Descuento;
+import jakarta.persistence.Table;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import java.util.Objects;
 
 
 @Entity
+@Table(name = "descuentodeproducto")
 @NoArgsConstructor
 public class DescuentoDeProducto extends Descuento {
 

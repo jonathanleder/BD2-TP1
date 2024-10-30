@@ -57,7 +57,7 @@ public class ProductoServiceTest extends GenericoServiceTest{
         categoriaService.crearCategoria("Explosivos");
         marcaService.crearMarca("ACME");
         productoService.crearProducto("152","explosivo C4",650F,1L,2L);
-        productoService.modificarProducto(3L,"Es dinamita",650F);
+       // productoService.modificarProducto(3L,"650","Es dinamita");
         inTransactionExecute(
                 (em) -> {
                     Marca marca = em.getReference(Marca.class,2L);

@@ -29,6 +29,9 @@ public class Producto {
     private String descripcion = "";
     private float precio;
 
+    @Version
+    private Integer version;//para gestionar las versiones
+
 
     public Producto(String codigo,String descripcion, Categoria unaCategoria,Marca marca, float precio) throws ProductoInvalidoExcepcion {
 
@@ -43,11 +46,23 @@ public class Producto {
     }
 
 
+    public Producto(String codigo,String descripcion, Categoria unaCategoria,Marca marca, float precio, Integer version) throws ProductoInvalidoExcepcion {
 
-
-    public float getPrecio(){
-        return this.precio;
+        this.codigo = Objects.requireNonNull(codigo,"El codigo no debe estar repetido");
+        this.descripcion=Objects.requireNonNull(descripcion,"Debe ingresar una descripcion Valida");
+        this.categoria=Objects.requireNonNull(unaCategoria,"Debe ingresar una categoria valida");
+        if(precio<=0) {
+            throw new IllegalArgumentException("El precio debe ser un valor valido");
+        }
+        this.precio=precio;
+        this.version=version;
+        this.marca=Objects.requireNonNull(marca);
     }
+
+
+
+
+
     public String obtenerMarca(){
         return this.marca.getNombre();
     }
@@ -89,5 +104,9 @@ public class Producto {
         return this.codigo.equals(productoResultado.codigo);
     }
 
+    @Override
+    public String toString(){
+        return "Nombre: "+ this.getDescripcion() + "\n Marca :" + this.getMarca().getNombre() + "\n Categoria: "+this.getCategoria().getNombre();
+    }
 
 }

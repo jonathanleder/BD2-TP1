@@ -1,5 +1,6 @@
 package ar.unrn.tp.modelo;
 
+import ar.unrn.tp.excepciones.FechaInvalidaExcepcion;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Table(name = "Descuento")
-public abstract class Descuento {
+public  class Descuento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,7 +25,7 @@ public abstract class Descuento {
 
     public static String FECHA_INVALIDA="Las fechas no se pueden superponer o la fecha inicio no puede ser superior a la fecha de fin";
 
-    public Descuento(LocalDate fechaInicio, LocalDate fechaFin, float descuentoEnPorcentaje, String marca){
+    public Descuento(LocalDate fechaInicio, LocalDate fechaFin, float descuentoEnPorcentaje, String marca)throws FechaInvalidaExcepcion {
         if(fechaInicio.isAfter(fechaFin)){
             throw new IllegalArgumentException(FECHA_INVALIDA);
         }
@@ -39,7 +40,9 @@ public abstract class Descuento {
     }
 
 
-    public abstract boolean tienePromo(String dato);
+    public boolean tienePromo(String dato){
+        return this.descripcion.equals(dato);
+    };
 
     public float aplicarDescuento(float precio){
         return precio-(precio*this.descuento);
@@ -50,7 +53,9 @@ public abstract class Descuento {
         return LocalDate.now().isAfter(this.fechaInicio) && LocalDate.now().isBefore(this.fechaFin);
     }
 
-    protected abstract String marca();
+    protected String marca(){
+        return this.descripcion;
+    };
 
     protected LocalDate getFechaDeInicio(){
         return fechaInicio;

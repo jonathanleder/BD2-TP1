@@ -37,6 +37,7 @@ public class Venta {
 
 
 
+
     public Venta(Cliente unCliente,List<Producto> productos,float montoFinal,List<Descuento> promos, Tarjeta TarjetaSeleccionada){
         this.cliente= Objects.requireNonNull(unCliente);
         this.fechaHora=LocalDateTime.now();

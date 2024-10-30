@@ -48,10 +48,13 @@ public class JPAClienteService extends JPAGenericService implements ClienteServi
     }
 
     @Override
-    public void agregarTarjeta(Long idCliente, String nro, String marca) {
+    public void agregarTarjeta(Long idCliente,String marca,String nro) {
+        System.out.println("\nel id ingresado es: "+idCliente+"\n y los datos de la tarjeta son: "+ nro+"\t"+marca+"\n");
+
         inTransactionExecute((em) -> {
             try {
                 Cliente cliente = em.getReference(Cliente.class, idCliente);
+                System.out.println("Obtuvo el cliente? "+cliente.toString());
                 cliente.agregarTarjeta(new Tarjeta(marca, nro));
                 em.persist(cliente);
             } catch (Exception e) {
