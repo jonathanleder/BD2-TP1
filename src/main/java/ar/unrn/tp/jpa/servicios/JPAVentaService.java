@@ -5,10 +5,14 @@ import ar.unrn.tp.api.VentaService;
 import ar.unrn.tp.excepciones.ProductoInvalidoExcepcion;
 import ar.unrn.tp.excepciones.TarjetaInvalidaExcepcion;
 import ar.unrn.tp.modelo.*;
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityManagerFactory;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -28,14 +32,46 @@ public class JPAVentaService extends JPAGenericService implements VentaService {
     }
     @Override
     public void realizarVenta(Long idCliente, List<Long> productos, Long idTarjeta) {
+
         inTransactionExecute((em) -> {
+
+            //Busca el cliente y la tarjeta en la bd
+            Cliente cliente = em.find(Cliente.class,idCliente);
+            Tarjeta tarjeta = em.find(Tarjeta.class,idTarjeta);
+            //se evalua la existencia del cliente, la tarjeta y si hay productos para realizar la venta
+            if (cliente == null) {
+                throw new RuntimeException("El cliente no existe");
+            }
+            if (tarjeta == null){
+                throw new RuntimeException("No existe la tarjeta solicitada");
+            }
+            if (productos==null || productos.isEmpty()) {
+                throw new RuntimeException("No hay productos para esta lista");
+            }
+
+            //Debemos evaluar si la tarjeta ingresada pertenece al cliente
+            boolean existeTarjeta=false;
+
+            for (Tarjeta tarjetaDeCredito: cliente.getTarjetas()) {
+                if (tarjetaDeCredito.getNumero().equalsIgnoreCase(tarjetaDeCredito.getNumero())) {
+                    existeTarjeta = true;
+                }
+            }
             List<Descuento> promociones = this.descuentoService.recuperarDescuentos();
             List<Producto> listaProductos = em.createQuery("SELECT o FROM Producto o WHERE o.id IN :ids", Producto.class).setParameter("ids", productos).getResultList();
-            System.out.println("productos: " +listaProductos.size());
+
+            NumeroSiguiente nroSiguiente;
             try {
-                Venta venta = new Carrito(em.getReference(Cliente.class,idCliente),listaProductos,promociones,servicioValidadorTarjetas,em.getReference(Tarjeta.class,idTarjeta)).realizarPago();
+                nroSiguiente = em.createQuery("SELECT n FROM NumeroSiguiente n WHERE año = :anioActual", NumeroSiguiente.class).setParameter("anioActual", LocalDate.now().getYear()).setLockMode(LockModeType.PESSIMISTIC_WRITE).getSingleResult();
+            } catch (NoResultException e) {
+                nroSiguiente = new NumeroSiguiente(0, LocalDate.now().getYear());
+            }
+
+            try {
+                Venta venta = new Carrito(em.getReference(Cliente.class,idCliente),listaProductos,promociones,servicioValidadorTarjetas,em.getReference(Tarjeta.class,idTarjeta)).realizarPago(String.valueOf(nroSiguiente.recuperarSiguiente())+"-"+String.valueOf(nroSiguiente.getAño()));
                 System.out.println(venta.cantidadDeProductos());
                 em.persist(venta);
+                em.persist(nroSiguiente);
 
             } catch (TarjetaInvalidaExcepcion | ProductoInvalidoExcepcion e) {
                 throw new RuntimeException(e);
@@ -79,42 +115,8 @@ public class JPAVentaService extends JPAGenericService implements VentaService {
         });
         return monto.get();
     }
-/*
-    @Override
-    public float calcularMonto(List<Long> productos, Long idTarjeta) {
-        AtomicReference<Float> monto = new AtomicReference<>(0F);
-        inTransactionExecute((em) -> {
-            Tarjeta tarjetaCredito = em.find(Tarjeta.class, idTarjeta);
-            List<Producto> listaProductos = em.createQuery("SELECT o FROM Producto o WHERE o.id IN :ids", Producto.class).setParameter("ids", productos).getResultList();
-            List<Descuento> promociones = this.descuentoService.recuperarDescuentos();
-            monto.set(montoTotal(tarjetaCredito,listaProductos,promociones));
-        });
-        return monto.get();
-    }*/
 
-    private float montoTotal(Tarjeta tarjeta, List<Producto> productos, List<Descuento> descuentos){
 
-        float montoTotal = 0;
-        float descuentoDeCompra=0;
-
-        for (Producto producto : productos) {
-            float precioConDescuento = producto.getPrecio();
-            for (Descuento descuento : descuentos) {
-                if (descuento.tienePromo(producto.obtenerMarca()) && descuento.estaVigente()) {
-                    precioConDescuento = descuento.aplicarDescuento(precioConDescuento);
-                }
-                if (descuento.tienePromo(tarjeta.getTipoTarjeta()) && descuento.estaVigente()) {
-                    descuentoDeCompra += descuento.descuento();
-                }
-            }
-            montoTotal += precioConDescuento;
-        }
-
-        if (descuentoDeCompra!=0)
-            montoTotal = montoTotal*descuentoDeCompra;
-        return montoTotal;
-
-    }
 
     @Override
     public List<Venta> ventas() {
@@ -125,6 +127,7 @@ public class JPAVentaService extends JPAGenericService implements VentaService {
         return ventas;
     }
 
+    /*
     @Override
     public Long realizarVentaId(long idCliente, List<Long> productos, long idTarjeta) {
         AtomicReference<Long> ventaId = new AtomicReference<>(null);
@@ -132,13 +135,22 @@ public class JPAVentaService extends JPAGenericService implements VentaService {
         inTransactionExecute((em) -> {
             List<Descuento> promociones = this.descuentoService.recuperarDescuentos();
             List<Producto> listaProductos = em.createQuery("SELECT p FROM Producto p", Producto.class).getResultList();
-            System.out.println("productos: " +listaProductos.size());
+
+            NumeroSiguiente nroSiguiente;
+
+            try {
+                nroSiguiente = em.createQuery("SELECT n FROM NumeroSiguiente n WHERE año = :anioActual", NumeroSiguiente.class).setParameter("anioActual", LocalDate.now().getYear()).setLockMode(LockModeType.PESSIMISTIC_WRITE).getSingleResult();
+            } catch (NoResultException e) {
+                nroSiguiente = new NumeroSiguiente(0, LocalDate.now().getYear());
+            }
+
+
             try {
                 Venta venta = new Carrito(em.getReference(Cliente.class, idCliente),
                         listaProductos,
                         promociones,
                         servicioValidadorTarjetas,
-                        em.getReference(Tarjeta.class, idTarjeta)).realizarPago();
+                        em.getReference(Tarjeta.class, idTarjeta)).realizarPago(String.valueOf(nroSiguiente.recuperarSiguiente())+"-"+String.valueOf(nroSiguiente.getAño()));
                 em.persist(venta);
                 ventaId.set(venta.id()); // Asegúrate de que Venta tenga un método getId()
             } catch (TarjetaInvalidaExcepcion | ProductoInvalidoExcepcion e) {
@@ -148,7 +160,7 @@ public class JPAVentaService extends JPAGenericService implements VentaService {
 
         System.out.println("id de venta: "+ventaId.get());
         return ventaId.get();
-    }
+    }*/
 
 
 }

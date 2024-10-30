@@ -35,15 +35,18 @@ public class Venta {
 
     private float montoTotal;
 
+    private String numero;
 
 
 
-    public Venta(Cliente unCliente,List<Producto> productos,float montoFinal,List<Descuento> promos, Tarjeta TarjetaSeleccionada){
+
+    public Venta(Cliente unCliente,List<Producto> productos,float montoFinal,List<Descuento> promos, Tarjeta TarjetaSeleccionada,String numero){
         this.cliente= Objects.requireNonNull(unCliente);
         this.fechaHora=LocalDateTime.now();
         this.items=productos;
         this.montoTotal=montoFinal;
         this.tarjeta=TarjetaSeleccionada;
+        this.numero=numero;
 
     }
 

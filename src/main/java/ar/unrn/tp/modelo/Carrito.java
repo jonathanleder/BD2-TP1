@@ -85,10 +85,10 @@ public class Carrito {
         return montoTotal;
     }
 
-    public Venta realizarPago() throws TarjetaInvalidaExcepcion, ProductoInvalidoExcepcion {
+    public Venta realizarPago(String numeroDeVenta) throws TarjetaInvalidaExcepcion, ProductoInvalidoExcepcion {
 
         if (servicioPago.validarTarjeta(this.tarjetaSeleccionada))
-            return new Venta(this.cliente,this.items,this.calcularMontoConPromos(),descuentosDeVentas, this.tarjetaSeleccionada);
+            return new Venta(this.cliente,this.items,this.calcularMontoConPromos(),descuentosDeVentas, this.tarjetaSeleccionada,numeroDeVenta);
         throw new TarjetaInvalidaExcepcion();
     }
 

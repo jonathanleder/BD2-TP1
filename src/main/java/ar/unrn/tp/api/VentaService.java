@@ -15,6 +15,6 @@ public interface VentaService {
     //Devuelve todas las ventas realizadas
     List ventas();
 
-    Long realizarVentaId(long l, List<Long> longs, long l1);
+    //Long realizarVentaId(long l, List<Long> longs, long l1);
 }
 
